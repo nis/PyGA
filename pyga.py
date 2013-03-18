@@ -67,11 +67,3 @@ class pyga():
 
 						self.population[i][individual_1][ii] = self.population[i][individual_2][ii]
 						self.population[i][individual_2][ii] = tempvalue
-
-
-
-
-
-
-		
-		
