@@ -4,5 +4,5 @@ import pyga
 import os
 
 os.system('clear')
-ga = pyga.pyga(1, 100, 5, 0.02, 10000)
-ga.run()
+ga = pyga.pyga(10, 100, 5, 0.02)
+ga.run(10000)

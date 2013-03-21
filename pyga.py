@@ -1,27 +1,26 @@
 class pyga():
 	"""docstring for PyGA"""
 
-	def __init__(self, populations, individuals, genes, mutation_rate, generations):
+	def __init__(self, populations, individuals, genes, mutation_rate):
 		self.number_populations = populations
 		self.number_individuals = individuals
 		self.number_genes = genes
 		self.mutation_rate = mutation_rate
-		self.generations = generations
 
 		self.initialize_population()
 
-	def run(self):
+	def run(self, generations):
 		# Run the GA
 
-		for i in range(0, self.generations):
-			if i == 0 or i == (self.generations - 1):
+		for i in range(0, generations):
+			if i == 0 or i == (generations - 1):
 				print 'Generation', i+1
 			# Do a generation
 			for ii in range(0, self.number_populations):
 				# Find the two best individuals, and the two worst
 				best_index, next_best_index, worst_index, next_worst_index = self.find_best_and_worst(self.population[ii])
 				
-				if i == 0 or i == (self.generations - 1):
+				if i == 0 or i == (generations - 1):
 					print "\tPopulation", ii+1
 					print "\t\tBest fitness:", self.fitness(self.population[ii][best_index])
 					print "\t\tWorst fitness:", self.fitness(self.population[ii][worst_index])
