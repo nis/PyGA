@@ -14,16 +14,17 @@ class pyga():
 		# Run the GA
 
 		for i in range(0, self.generations):
-			print 'Generation', i+1
+			if i == 0 or i == (self.generations - 1):
+				print 'Generation', i+1
 			# Do a generation
 			for ii in range(0, self.number_populations):
 				# Find the two best individuals, and the two worst
-				print "\tPopulation", ii+1
-
 				best_index, next_best_index, worst_index, next_worst_index = self.find_best_and_worst(self.population[ii])
 				
-				print "\t\tBest fitness:", self.fitness(self.population[ii][best_index])
-				print "\t\tWorst fitness:", self.fitness(self.population[ii][worst_index])
+				if i == 0 or i == (self.generations - 1):
+					print "\tPopulation", ii+1
+					print "\t\tBest fitness:", self.fitness(self.population[ii][best_index])
+					print "\t\tWorst fitness:", self.fitness(self.population[ii][worst_index])
 
 				# Do crossover
 				kid_1, kid_2 = self.crossover(self.population[ii][best_index], self.population[ii][next_best_index])
