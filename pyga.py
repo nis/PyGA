@@ -1,15 +1,73 @@
 class pyga():
 	"""docstring for PyGA"""
 
-	def __init__(self, populations, individuals, genes, mutation_rate, crossover_rate):
+	def __init__(self, populations, individuals, genes, mutation_rate, generations):
 		self.number_populations = populations
 		self.number_individuals = individuals
 		self.number_genes = genes
 		self.mutation_rate = mutation_rate
-		self.crossover_rate = crossover_rate
+		self.generations = generations
 
 		self.initialize_population()
-		
+
+	def run(self):
+		# Run the GA
+
+		for i in range(0, self.generations):
+			print 'Generation', i+1
+			# Do a generation
+			for ii in range(0, self.number_populations):
+				# Find the two best individuals, and the two worst
+				print "\tPopulation", ii+1
+
+				best_index, next_best_index, worst_index, next_worst_index = self.find_best_and_worst(self.population[ii])
+				
+				print "\t\tBest fitness:", self.fitness(self.population[ii][best_index])
+				print "\t\tWorst fitness:", self.fitness(self.population[ii][worst_index])
+
+				# Do crossover
+				kid_1, kid_2 = self.crossover(self.population[ii][best_index], self.population[ii][next_best_index])
+
+				# Replace the two worst with the new children
+				self.population[ii][worst_index] = self.mutate(kid_1)
+				self.population[ii][next_worst_index] = self.mutate(kid_2)
+
+	def find_best_and_worst(self, population):
+		best_index = 0
+		best_value = 0
+		next_best_index = 0
+		next_best_value = 0
+
+		worst_index = 0
+		worst_value = 99999999999999
+		next_worst_index = 0
+		next_worst_value = 99999999999999
+
+		for i in range(0, self.number_individuals):
+			fitness = self.fitness(population[i])
+			if fitness > best_value:
+				next_best_value = best_value
+				next_best_index = best_index
+				best_index = i
+				best_value = fitness
+			elif fitness > next_best_value:
+				next_best_index = i
+				next_best_value = fitness
+
+			if fitness < worst_value:
+				next_worst_value = worst_value
+				next_worst_index = worst_index
+				worst_value = fitness
+				worst_index = i
+			elif fitness < next_worst_value:
+				next_worst_value = fitness
+				next_worst_index = i
+
+		return (best_index, next_best_index, worst_index, next_worst_index)
+
+	def fitness(self, individual):
+		return sum(individual) / self.number_genes
+
 	def initialize_population(self):
 		# Initialize the population with random values from -1 to 1
 		import random
@@ -30,40 +88,39 @@ class pyga():
 			for ii in range(len(self.population[i])):
 				print '\tIndividual', ii+1, self.population[i][ii]
 
-	def mutate(self):
+	def mutate(self, individual):
 		# Mutate genomes
 		import random
 
-		for i in range(0,self.number_populations):
-			for ii in range(0, self.number_individuals):
-				for iii in range(0, self.number_genes):
-					if random.random() < self.mutation_rate: # Should we mutate this gene?
-						self.population[i][ii][iii] = float(random.uniform(-1, 1))
+		for i in range(self.number_genes):
+			if random.random() < self.mutation_rate: # Should we mutate this gene?
+				individual[i] = float(random.uniform(-1, 1))
 
-	def crossover(self):
+		return individual
+
+	def crossover(self, individual_1, individual_2):
 		import random
 
-		for i in range(0,self.number_populations):
-			if random.random() < self.crossover_rate: # Should we do crossover in this population?
-				# Pick two individuals:
-				individual_1 = random.randrange(0, len(self.population[i]))
-				individual_2 = individual_1
-				while individual_1 == individual_2:
-					individual_2 = random.randrange(0, len(self.population[i]))
+		new_individual_1 = list(individual_1)
+		new_individual_2 = list(individual_2)
 
-				# Pick the crossover points (2-point crossover)
-				crossover_point_1 = random.randrange(0, self.number_genes)
-				while crossover_point_1 < (self.number_genes - 2):
-					crossover_point_1 = random.randrange(0, self.number_genes)
+		crossover_point_1 = random.randrange(0, self.number_genes)
+		while crossover_point_1 > (self.number_genes - 1):
+			crossover_point_1 = random.randrange(0, self.number_genes)
 
-				crossover_point_2 = crossover_point_1
-				while crossover_point_2 < crossover_point_1:
-					crossover_point_2 = random.randrange(0, self.number_genes)
+		crossover_point_2 = crossover_point_1
+		while crossover_point_2 < crossover_point_1:
+			crossover_point_2 = random.randrange(0, self.number_genes)
 
-				# Do the cross over
-				for ii in range(self.number_genes):
-					if ii >= crossover_point_1 and ii <= crossover_point_2:
-						tempvalue = self.population[i][individual_1][ii]
+		# Do the cross over
+		for i in range(self.number_genes):
+			if i >= crossover_point_1 and i <= crossover_point_2:
+				tempvalue = new_individual_1[i]
 
-						self.population[i][individual_1][ii] = self.population[i][individual_2][ii]
-						self.population[i][individual_2][ii] = tempvalue
+				new_individual_1[i] = new_individual_2[i]
+				new_individual_2[i] = tempvalue
+
+		return new_individual_1, new_individual_2
+
+	def mean(self, individual):
+		return sum(individual) / self.number_genes

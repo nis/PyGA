@@ -4,8 +4,5 @@ import pyga
 import os
 
 os.system('clear')
-ga = pyga.pyga(1, 3, 5, 0, 0.50)
-ga.print_populations()
-ga.mutate()
-ga.crossover()
-ga.print_populations()
+ga = pyga.pyga(1, 100, 5, 0.02, 10000)
+ga.run()
