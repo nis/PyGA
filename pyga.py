@@ -32,6 +32,22 @@ class pyga():
 				self.population[ii][worst_index] = self.mutate(kid_1)
 				self.population[ii][next_worst_index] = self.mutate(kid_2)
 
+	def export(self):
+
+		data = ''
+
+		for i in range(0, self.number_populations):
+			for ii in range(0, self.number_individuals):
+				data = data + '['
+				for iii in range(0, self.number_genes):
+					data = data + str(self.population[i][ii][iii])
+					if iii < self.number_genes - 1:
+						data = data + ','
+
+				data = data + ']' + '\n'
+		return data
+
+
 	def find_best_and_worst(self, population):
 		best_index = 0
 		best_value = 0
