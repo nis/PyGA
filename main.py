@@ -7,6 +7,7 @@ datafolder = '/Users/tamen/Documents/Archive/Skole/SDU/8. Semester/AI2/Code/Ludo
 
 os.system('clear')
 ga = pyga.pyga(10, 100, 5, 0.02)
-for i in range(100):
+ga.export_setup(datafolder)
+for i in range(5):
 	ga.export_to_file(datafolder)
 	ga.run(1)

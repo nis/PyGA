@@ -36,6 +36,15 @@ class pyga():
 				self.population[ii][worst_index] = self.mutate(kid_1)
 				self.population[ii][next_worst_index] = self.mutate(kid_2)
 
+	def export_setup(self, output_folder):
+		data = 'Populations: ' + str(self.number_populations) + '\n'
+		data = data + 'Individuals: ' + str(self.number_individuals) + '\n'
+		data = data + 'Genes: ' + str(self.number_genes) + '\n'
+		data = data + 'Mutation rate: ' + str(self.mutation_rate) + '\n'
+		output_file = output_folder + 'setup.txt'
+		f = open(output_file, 'w')
+		f.write(data)
+
 	def export_to_file(self, output_folder):
 		generation, data = self.export()
 
