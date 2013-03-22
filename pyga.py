@@ -9,21 +9,25 @@ class pyga():
 
 		self.initialize_population()
 
-	def run(self, generations):
+	def run(self, generations, output = 0):
 		# Run the GA
 
 		for i in range(0, generations):
-			if i == 0 or i == (generations - 1):
-				print 'Generation', i+1
+			self.generation = self.generation + 1
+
+			if output:
+				if i == 0 or i == (generations - 1):
+					print 'Generation', i+1
 			# Do a generation
 			for ii in range(0, self.number_populations):
 				# Find the two best individuals, and the two worst
 				best_index, next_best_index, worst_index, next_worst_index = self.find_best_and_worst(self.population[ii])
 				
-				if i == 0 or i == (generations - 1):
-					print "\tPopulation", ii+1
-					print "\t\tBest fitness:", self.fitness(self.population[ii][best_index])
-					print "\t\tWorst fitness:", self.fitness(self.population[ii][worst_index])
+				if output:
+					if i == 0 or i == (generations - 1):
+						print "\tPopulation", ii+1
+						print "\t\tBest fitness:", self.fitness(self.population[ii][best_index])
+						print "\t\tWorst fitness:", self.fitness(self.population[ii][worst_index])
 
 				# Do crossover
 				kid_1, kid_2 = self.crossover(self.population[ii][best_index], self.population[ii][next_best_index])
