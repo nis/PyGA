@@ -36,7 +36,8 @@ class pyga():
 				self.population[ii][worst_index] = self.mutate(kid_1)
 				self.population[ii][next_worst_index] = self.mutate(kid_2)
 
-	def import_setup(self, folder):
+	def import_folder(self, folder):
+		import os
 		setup_file = folder + 'setup.txt'
 		f = open(setup_file, 'r')
 		population_set = 0
@@ -45,17 +46,36 @@ class pyga():
 		mutation_rate_set = 0
 		for line in f:
 			if 'Populations: ' in line:
-				this.number_populations = int(line.split(': ')[1])
+				self.number_populations = int(line.split(': ')[1])
 				population_set = 1
 			elif 'Individuals: ' in line:
-				this.number_individuals = int(line.split(': ')[1])
+				self.number_individuals = int(line.split(': ')[1])
 				individuals_set = 1
 			elif 'Genes: ' in line:
-				this.number_genes = int(line.split(': ')[1])
+				self.number_genes = int(line.split(': ')[1])
 				genes_set = 1
 			elif 'Mutation rate: ' in line:
-				this.mutation_rate = float(line.split(': ')[1])
+				self.mutation_rate = float(line.split(': ')[1])
 				mutation_rate_set = 1
+		f.close()
+
+		generation_file = sorted(os.listdir(folder + 'generations/'))[-1]
+		self.generation = int(generation_file.split('gen')[1].split('.')[0]) + 1
+
+		f = open(folder + 'generations/' + generation_file, 'r')
+
+		population = []
+
+		for line in f:
+			genes = line.split(',')
+			individual = []
+			for i in range(0, self.number_genes ):
+				individual.append(float(genes[i]))
+			population.append(individual)
+
+			if len(population) == self.number_individuals:
+				self.population.append(population)
+				population = []
 
 	def export_setup(self, output_folder):
 		data = 'Populations: ' + str(self.number_populations) + '\n'
@@ -65,26 +85,28 @@ class pyga():
 		output_file = output_folder + 'setup.txt'
 		f = open(output_file, 'w')
 		f.write(data)
+		f.close()
 
 	def export_to_file(self, output_folder):
 		generation, data = self.export()
 
-		output_file = output_folder + '/generations/' + 'gen' + str(generation).rjust(10, '0') + '.txt'
+		output_file = output_folder + 'generations/' + 'gen' + str(generation).rjust(10, '0') + '.txt'
 		f = open(output_file, 'w')
 		f.write(data)
+		f.close()
 
 	def export(self):
 		data = ''
 
 		for i in range(0, self.number_populations):
 			for ii in range(0, self.number_individuals):
-				data = data + '['
+				data = data 
 				for iii in range(0, self.number_genes):
 					data = data + str(self.population[i][ii][iii])
 					if iii < self.number_genes - 1:
 						data = data + ','
 
-				data = data + ']' + '\n'
+				data = data + '\n'
 		return self.generation, data
 
 
