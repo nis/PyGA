@@ -45,7 +45,7 @@ class pyga():
 						data = data + ','
 
 				data = data + ']' + '\n'
-		return data
+		return self.generation, data
 
 
 	def find_best_and_worst(self, population):
@@ -88,6 +88,7 @@ class pyga():
 		# Initialize the population with random values from -1 to 1
 		import random
 		self.population = []
+		self.generation = 0
 
 		for i in range(0,self.number_populations):
 			pop = []
