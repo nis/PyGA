@@ -36,8 +36,14 @@ class pyga():
 				self.population[ii][worst_index] = self.mutate(kid_1)
 				self.population[ii][next_worst_index] = self.mutate(kid_2)
 
-	def export(self):
+	def export_to_file(self, output_folder):
+		generation, data = self.export()
 
+		output_file = output_folder + 'gen' + str(generation).rjust(10, '0') + '.gen'
+		f = open(output_file, 'w')
+		f.write(data)
+
+	def export(self):
 		data = ''
 
 		for i in range(0, self.number_populations):
