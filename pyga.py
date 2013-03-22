@@ -69,7 +69,7 @@ class pyga():
 	def export_to_file(self, output_folder):
 		generation, data = self.export()
 
-		output_file = output_folder + 'gen' + str(generation).rjust(10, '0') + '.gen'
+		output_file = output_folder + '/generations/' + 'gen' + str(generation).rjust(10, '0') + '.txt'
 		f = open(output_file, 'w')
 		f.write(data)
 
