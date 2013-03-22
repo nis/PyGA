@@ -1,7 +1,7 @@
 class pyga():
 	"""docstring for PyGA"""
 
-	def __init__(self, populations, individuals, genes, mutation_rate):
+	def __init__(self, populations = 0, individuals = 0, genes = 0, mutation_rate = 0):
 		self.number_populations = populations
 		self.number_individuals = individuals
 		self.number_genes = genes
@@ -35,6 +35,27 @@ class pyga():
 				# Replace the two worst with the new children
 				self.population[ii][worst_index] = self.mutate(kid_1)
 				self.population[ii][next_worst_index] = self.mutate(kid_2)
+
+	def import_setup(self, folder):
+		setup_file = folder + 'setup.txt'
+		f = open(setup_file, 'r')
+		population_set = 0
+		individuals_set = 0
+		genes_set = 0
+		mutation_rate_set = 0
+		for line in f:
+			if 'Populations: ' in line:
+				this.number_populations = int(line.split(': ')[1])
+				population_set = 1
+			elif 'Individuals: ' in line:
+				this.number_individuals = int(line.split(': ')[1])
+				individuals_set = 1
+			elif 'Genes: ' in line:
+				this.number_genes = int(line.split(': ')[1])
+				genes_set = 1
+			elif 'Mutation rate: ' in line:
+				this.mutation_rate = float(line.split(': ')[1])
+				mutation_rate_set = 1
 
 	def export_setup(self, output_folder):
 		data = 'Populations: ' + str(self.number_populations) + '\n'
