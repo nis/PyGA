@@ -39,3 +39,4 @@ data/.DS_Store
 data/generations/.DS_Store
 
 data/*
+.DS_Store
