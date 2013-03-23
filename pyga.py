@@ -38,6 +38,8 @@ class pyga():
 
 	def import_folder(self, folder):
 		import os
+
+		# Import the setup-file
 		setup_file = folder + 'setup.txt'
 		f = open(setup_file, 'r')
 		population_set = 0
@@ -59,6 +61,7 @@ class pyga():
 				mutation_rate_set = 1
 		f.close()
 
+		# Import the youngest generation
 		generation_file = sorted(os.listdir(folder + 'generations/'))[-1]
 		self.generation = int(generation_file.split('gen')[1].split('.')[0]) + 1
 
@@ -67,10 +70,29 @@ class pyga():
 		population = []
 
 		for line in f:
-			genes = line.split(',')
+			# Get the results
+			results = line.split(';')[1].split('\n')[0]
+			results = results.split('#')
+			places = []
+			moved = []
+			for result in results:
+				result = result.split('|')
+				places.append(int(result[0]))
+				moved.append(int(result[1]))
+
+			places = float(sum(places) / len(places))
+			moved = float(sum(moved) / len(moved))
+
+			# Get the genes
+			genes = line.split(';')[0]
+			genes = genes.split(',')
 			individual = []
 			for i in range(0, self.number_genes ):
 				individual.append(float(genes[i]))
+			
+			# Append the result after the genes
+			individual.append(places)
+			individual.append(moved)
 			population.append(individual)
 
 			if len(population) == self.number_individuals:
@@ -144,7 +166,8 @@ class pyga():
 		return (best_index, next_best_index, worst_index, next_worst_index)
 
 	def fitness(self, individual):
-		return sum(individual) / self.number_genes
+		# return sum(individual) / self.number_genes
+		return ((4 - individual[self.number_genes]) * 1000) + individual[self.number_genes]
 
 	def initialize_population(self):
 		# Initialize the population with random values from -1 to 1

@@ -3,13 +3,16 @@
 import pyga
 import os
 
-datafolder = '/Users/tamen/Documents/Archive/Skole/SDU/8. Semester/AI2/Code/Ludo/data/'
+datafolder = 'data/'
 
 os.system('clear')
 ga = pyga.pyga()
 ga.import_folder(datafolder)
 ga.print_populations()
-# ga = pyga.pyga(10, 100, 5, 0.02)
+ga.run(1)
+ga.print_populations()
+# ga.export_to_file(datafolder)
+# ga = pyga.pyga(1, 5, 3, 0.02)
 # ga.export_setup(datafolder)
 # for i in range(5):
 # 	ga.export_to_file(datafolder)
