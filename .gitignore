@@ -33,3 +33,9 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+data/.DS_Store
+
+data/generations/.DS_Store
+
+data/*
