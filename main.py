@@ -3,8 +3,9 @@
 import pyga
 import os
 import time
+import sys
 
-datafolder = 'data2/'
+datafolder = 'data4/'
 generations_path = datafolder + 'generations/'
 semaphor_path = datafolder + 'semaphors/'
 result_path = datafolder + 'results/'
@@ -39,6 +40,10 @@ def start_ga(populations, individuals, genes, mutationrate):
 	# setup the folders
 	if not os.path.exists(datafolder):
 		os.makedirs(datafolder)
+	else:
+		print 'Directory exists:', datafolder
+		print 'Are you sure you want to initialize a GA here?'
+		sys.exit()
 
 	if not os.path.exists(generations_path):
 		os.makedirs(generations_path)
@@ -62,6 +67,7 @@ os.system('clear')
 if initialize_ga:
 	ga = start_ga(1, 5, 3, 0.02)
 	print 'GA initialized.'
+	sys.exit()
 
 
 for i in range(max_generations):
@@ -74,4 +80,3 @@ for i in range(max_generations):
 	ga.run(1)
 	ga.export_to_file(datafolder)
 	set_ga_semaphor(ga_semaphor_file)
-	
