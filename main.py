@@ -97,6 +97,7 @@ def main2(argv):
 		ga.run(1)
 		ga.export_to_file(datafolder)
 		set_ga_semaphor(ga_semaphor_file)
+		time.sleep(0.1)
 
 if __name__ == "__main__":
 	main2(sys.argv[1:])

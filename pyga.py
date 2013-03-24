@@ -167,7 +167,7 @@ class pyga():
 
 	def fitness(self, individual):
 		# return sum(individual) / self.number_genes
-		return ((4 - individual[self.number_genes]) * 1000) + individual[self.number_genes]
+		return (individual[self.number_genes] * 1000) + individual[self.number_genes]
 
 	def initialize_population(self):
 		# Initialize the population with random values from -1 to 1
