@@ -36,11 +36,11 @@ class pyga():
 				self.population[ii][worst_index] = self.mutate(kid_1)
 				self.population[ii][next_worst_index] = self.mutate(kid_2)
 
-	def import_folder(self, folder):
+	def import_folder(self, setup_file, results_dir):
 		import os
 
 		# Import the setup-file
-		setup_file = folder + 'setup.txt'
+		setup_file = setup_file
 		f = open(setup_file, 'r')
 		population_set = 0
 		individuals_set = 0
@@ -62,10 +62,10 @@ class pyga():
 		f.close()
 
 		# Import the youngest generation
-		generation_file = sorted(os.listdir(folder + 'generations/'))[-1]
-		self.generation = int(generation_file.split('gen')[1].split('.')[0]) + 1
+		generation_file = sorted(os.listdir(results_dir))[-1]
+		self.generation = int(generation_file.split('gen')[1].split('.')[0])
 
-		f = open(folder + 'generations/' + generation_file, 'r')
+		f = open(results_dir + generation_file, 'r')
 
 		population = []
 
