@@ -17,6 +17,7 @@ max_generations = 100000
 populations = 1
 individuals = 5
 genes = 3
+mutation_rate = 0.02
 
 initialize_ga = True
 
@@ -65,7 +66,7 @@ def start_ga(populations, individuals, genes, mutationrate):
 os.system('clear')
 
 if initialize_ga:
-	ga = start_ga(1, 5, 3, 0.02)
+	ga = start_ga(populations, individuals, genes, mutation_rate)
 	print 'GA initialized.'
 	sys.exit()
 
